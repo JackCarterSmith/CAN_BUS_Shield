@@ -45,7 +45,7 @@ class MCP_CAN
 *  mcp2515 driver function 
 */
    // private:
-private:
+public:
 
     void mcp2515_reset(void);                                           /* reset mcp2515                */
 

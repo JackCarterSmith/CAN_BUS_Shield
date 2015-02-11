@@ -141,7 +141,7 @@ INT8U MCP_CAN::mcp2515_setCANCTRL_Mode(const INT8U newmode)
 
     mcp2515_modifyRegister(MCP_CANCTRL, MODE_MASK, newmode);
 
-    i = mcp2515_readRegister(MCP_CANCTRL);
+    i = mcp2515_readRegister(MCP_CANSTAT);
     i &= MODE_MASK;
 
     if ( i == newmode ) 
@@ -265,9 +265,9 @@ void MCP_CAN::mcp2515_initCANBuffers(void)
 {
     INT8U i, a1, a2, a3;
     
-    INT8U std = 0;               
-    INT8U ext = 1;
-    INT32U ulMask = 0x00, ulFilt = 0x00;
+//     INT8U std = 0;               
+//     INT8U ext = 1;
+//     INT32U ulMask = 0x00, ulFilt = 0x00;
 
 
     //mcp2515_write_id(MCP_RXM0SIDH, ext, ulMask);			/*Set both masks to 0           */
@@ -334,7 +334,7 @@ INT8U MCP_CAN::mcp2515_init(const INT8U canSpeed)                       /* mcp25
 #else
       delay(10);
 #endif
-      return res;
+      return 8;
     }
 #if DEBUG_MODE
     Serial.print("set rate success!!\r\n");
@@ -751,7 +751,7 @@ INT8U MCP_CAN::sendMsg()
     do
     {
         uiTimeOut++;        
-        res1= mcp2515_readRegister(txbuf_n);  			                /* read send buff ctrl reg 	*/
+        res1= mcp2515_readRegister(txbuf_n-1);  			                /* read send buff ctrl reg 	*/
         res1 = res1 & 0x08;                               		
     }while(res1 && (uiTimeOut < TIMEOUTVALUE));   
     if(uiTimeOut == TIMEOUTVALUE)                                       /* send msg timeout             */	
@@ -769,7 +769,7 @@ INT8U MCP_CAN::sendMsg()
 INT8U MCP_CAN::sendMsgBuf(INT32U id, INT8U ext, INT8U rtr, INT8U len, INT8U *buf)
 {
     setMsg(id, ext, len, rtr, buf);
-    sendMsg();
+    return sendMsg();
 }
 
 /*********************************************************************************************************
@@ -779,7 +779,7 @@ INT8U MCP_CAN::sendMsgBuf(INT32U id, INT8U ext, INT8U rtr, INT8U len, INT8U *buf
 INT8U MCP_CAN::sendMsgBuf(INT32U id, INT8U ext, INT8U len, INT8U *buf)
 {
     setMsg(id, ext, len, buf);
-    sendMsg();
+    return sendMsg();
 }
 
 
