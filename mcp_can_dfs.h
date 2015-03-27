@@ -317,10 +317,6 @@
 #define MCP2515_SELECT()   digitalWrite(SPICS, LOW)
 #define MCP2515_UNSELECT() digitalWrite(SPICS, HIGH)
 
-#define MCP2515_OK         (0)
-#define MCP2515_FAIL       (1)
-#define MCP_ALLTXBUSY      (2)
-
 #define CANDEBUG   1
 
 #define CANUSELOOP 0
@@ -355,14 +351,18 @@
 #define CAN_1000KBPS 13
 
 #define CAN_OK                  (0)
-#define CAN_FAILINIT            (1)
-#define CAN_FAILTX              (2)
-#define CAN_MSGAVAIL            (3)
-#define CAN_NOMSG               (4)
-#define CAN_CTRLERROR           (5)
-#define CAN_GETTXBFTIMEOUT      (6)
-#define CAN_SENDMSGTIMEOUT      (7)
-#define CAN_FAIL                (0xff)
+#define CAN_FAIL                (1)
+#define CAN_NO_MSG               (4)
+#define CAN_TX_ERROR    		(8)
+#define CAN_FAIL_SET_MODE		(9)
+#define CAN_UNKNOWN_RATE        (10)
+#define CAN_ALL_TX_BUSY      		(11)
+#define CAN_RX_OVER_FLOW        (12)
+#define CAN_TX_BUS_OFF			(13)
+#define CAN_TX_PASSIVE			(14)
+#define CAN_RX_PASSIVE			(15)
+#define CAN_TX_WARNING			(16)
+#define CAN_RX_WARNING			(17)
 
 #define CAN_MAX_CHAR_IN_MESSAGE (8)
 

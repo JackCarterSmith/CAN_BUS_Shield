@@ -44,8 +44,7 @@ class MCP_CAN
 /*
 *  mcp2515 driver function 
 */
-   // private:
-public:
+private:
 
     void mcp2515_reset(void);                                           /* reset mcp2515                */
 
@@ -67,7 +66,6 @@ public:
                                 const INT8U mask,
                                 const INT8U data);
 
-    INT8U mcp2515_readStatus(void);                                     /* read mcp2515's Status        */
     INT8U mcp2515_setCANCTRL_Mode(const INT8U newmode);                 /* set mode                     */
     INT8U mcp2515_configRate(const INT8U canSpeed);                     /* set boadrate                 */
     INT8U mcp2515_init(const INT8U canSpeed);                           /* mcp2515init                  */
@@ -89,11 +87,14 @@ public:
 *  can operator function
 */    
 
-    INT8U setMsg(INT32U id, INT8U ext, INT8U len, INT8U rtr, INT8U *pData); /* set message                  */  
-    INT8U setMsg(INT32U id, INT8U ext, INT8U len, INT8U *pData); /* set message                  */  
-    INT8U clearMsg();                                               /* clear all message to zero    */
+    void setMsg(INT32U id, INT8U ext, INT8U len, INT8U rtr, INT8U *pData); /* set message                  */
+    void setMsg(INT32U id, INT8U ext, INT8U len, INT8U *pData); /* set message                  */
+    void clearMsg();                                               /* clear all message to zero    */
     INT8U readMsg();                                                /* read message                 */
     INT8U sendMsg();                                                /* send message                 */
+    INT8U init_FiltOrMask(INT8U num, INT8U ext, INT32U ulData);           /* init filters                 */
+    INT8U mcp2515_readStatus(void);                                     /* read mcp2515's Status        */
+
 
 public:
     MCP_CAN(INT8U _CS);
@@ -105,9 +106,20 @@ public:
     INT8U readMsgBuf(INT8U *len, INT8U *buf);                       /* read buf                     */
     INT8U readMsgBufID(INT32U *ID, INT8U *len, INT8U *buf);         /* read buf with object ID      */
     INT8U checkReceive(void);                                       /* if something received        */
-    INT8U checkError(void);                                         /* if something error           */
+    INT8U checkTransmit(void);                                       /* if something received        */
     INT32U getCanId(void);                                          /* get can id when receive      */
     INT8U isRemoteRequest(void);                                    /* get RR flag when receive     */
+    INT8U checkTxError();
+    INT8U errorFlag();
+
+    static const INT8U EFlg_Rx1Ovr= MCP_EFLG_RX1OVR;
+    static const INT8U EFlg_Rx0Ovr= MCP_EFLG_RX0OVR;
+    static const INT8U EFlg_TxBusOff= MCP_EFLG_TXBO;
+    static const INT8U EFlg_TxEP= MCP_EFLG_TXEP;
+    static const INT8U EFlg_RxEP= MCP_EFLG_RXEP;
+    static const INT8U EFlg_TxWar= MCP_EFLG_TXWAR;
+    static const INT8U EFlg_RxWar= MCP_EFLG_RXWAR;
+    static const INT8U EFlg_EWar= MCP_EFLG_EWARN;
 };
 
 #endif
