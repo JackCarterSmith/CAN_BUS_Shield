@@ -23,7 +23,7 @@
 #ifndef _MCP2515DFS_H_
 #define _MCP2515DFS_H_
 
-#include <Arduino.h>
+#include "Arduino.h"
 #include <SPI.h>
 #include <inttypes.h>
 
@@ -32,7 +32,7 @@
 #endif
 
 #ifndef INT8U
-#define INT8U byte
+#define INT8U uint8_t
 #endif
 
 // if print debug information
